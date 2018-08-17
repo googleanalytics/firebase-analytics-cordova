@@ -1,0 +1,58 @@
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+xmlns:android="http://schemas.android.com/apk/res/android"
+           id="firebase-analytics-cordova"
+      version="1.0.0">
+
+    <name>FirebaseAnalyticsPlugin</name>
+    <description>Cordova plugin for Firebase Analytics</description>
+    <license>Apache-2.0</license>
+    <keywords>cordova</keywords>
+
+    <js-module src="www/FirebaseAnalytics.js" name="FirebaseAnalytics">
+        <merges target="cordova.plugins.firebase.analytics" />
+    </js-module>
+
+    <engines>
+        <engine name="cordova" version=">=7.1.0"/>
+        <engine name="cordova-android" version=">=7.0.0"/>
+        <engine name="cordova-ios" version=">=4.3.0"/>
+    </engines>
+
+    <platform name="ios">
+        <config-file target="config.xml" parent="/*">
+            <feature name="FirebaseAnalytics">
+                <param name="ios-package" value="FirebaseAnalyticsPlugin" />
+                <param name="onload" value="true" />
+            </feature>
+        </config-file>
+
+        <header-file src="src/ios/FirebaseAnalyticsPlugin.h" />
+        <source-file src="src/ios/FirebaseAnalyticsPlugin.m" />
+
+        <framework src="Firebase/Core" type="podspec" spec="~> 5.0"/>
+    </platform>
+
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="FirebaseAnalytics">
+                <param name="android-package" value="com.google.cordova.firebase.analytics.FirebaseAnalyticsPlugin" />
+                <param name="onload" value="true" />
+            </feature>
+        </config-file>
+
+        <config-file target="AndroidManifest.xml" parent="/*">
+            <uses-permission android:name="android.permission.INTERNET" />
+        </config-file>
+
+        <dependency id="cordova-support-android-plugin" version="~1.0.0"/>
+
+        <framework src="com.google.firebase:firebase-core:16.0.1" />
+        <framework src="com.google.gms:google-services:4.0.1" />
+        <framework src="resources/build.gradle" custom="true" type="gradleReference" />
+
+        <source-file src="src/android/FirebaseAnalyticsPlugin.java" target-dir="src/com/google/cordova/firebase/analytics/" />
+    </platform>
+
+    <hook src="resources/copy_service_files.js" type="before_build" />
+
+</plugin>
