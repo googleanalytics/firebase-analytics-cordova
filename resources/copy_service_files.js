@@ -11,6 +11,11 @@ const IOS_SERVICE_FILE = "GoogleService-Info.plist"
 const ANDROID_DIR = "platforms/android/app"
 const IOS_DIR = "platforms/ios"
 
+const rethrow = func => err => {
+	func(err);
+	throw err;
+}
+
 const verboseCopy = (src, dest) => {
 	console.log(`Copying ${src} to ${dest}...`);
 	return copyFile(src, dest).then(() => {
@@ -22,13 +27,17 @@ const copyAndroidServiceFile = projectRoot => verboseCopy(
 	path.join(projectRoot, ANDROID_SERVICE_FILE),
 	path.join(projectRoot, ANDROID_DIR, ANDROID_SERVICE_FILE),
 	fs.constants.COPYFILE_FICLONE
-)
+).catch(rethrow(() => console.error(
+	`Failed to copy ${ANDROID_SERVICE_FILE}; make sure to download it via firebase`
+)))
 
 const copyIosServiceFile = projectRoot => verboseCopy(
 	path.join(projectRoot, IOS_SERVICE_FILE),
 	path.join(projectRoot, IOS_DIR, IOS_SERVICE_FILE),
 	fs.constants.COPYFILE_FICLONE
-)
+).catch(rethrow(() => console.error(
+	`Failed to copy ${IOS_SERVICE_FILE}; make sure to download it via firebase`
+)))
 
 module.exports = context => {
 	const projectRoot = context.opts.projectRoot;
