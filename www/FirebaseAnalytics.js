@@ -7,6 +7,7 @@ const execPromise = (cls, action, arg) => new Promise((resolve, reject) => {
 
 const execPlugin = (action, arg) => execPromise(PLUGIN_NAME, action, arg)
 
+// TODO: deduplicate function names, refactor array conversions
 module.exports = {
     // TODO: validate logEvent parameters
     logEvent: (name, params) => execPlugin("logEvent", [name, params || {}]),
